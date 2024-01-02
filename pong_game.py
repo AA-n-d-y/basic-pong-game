@@ -6,6 +6,7 @@
 
 ### Imports and creating the window
 
+from random import choice
 import turtle
 window = turtle.Screen()
 window.setup(height = 600, width = 900)
@@ -82,8 +83,10 @@ ball.goto(0, 0)
 ball.shape("circle")
 ball.color("white")
 ball.shapesize(1)
-ball_x_speed = 0.255
-ball_y_speed = 0.255
+speeds = [-1, 1]
+direction = choice(speeds)
+ball_x_speed = 0.255 * direction
+ball_y_speed = 0.255 * direction
 
 
 ### Functions
@@ -131,6 +134,7 @@ def startGame():
     global ball_x_speed
     global ball_y_speed
 
+    # While loop to keep the game running until a player reaches 3 points
     while left_score < 3 and right_score < 3:
         window.update()
 
@@ -146,8 +150,9 @@ def startGame():
             scoreboard.write(f"{left_score}                   {right_score}", \
                     font = ("Roboto", 45), align = "center")
             ball.goto(0, 0)
+            direction = choice(speeds)
             ball_x_speed *= -1
-            ball_y_speed *= -1
+            ball_y_speed *= direction
 
         # Right paddle scores
         if ball.xcor() < -460:
@@ -156,9 +161,11 @@ def startGame():
             scoreboard.write(f"{left_score}                   {right_score}", \
                     font = ("Roboto", 45), align = "center")
             ball.goto(0, 0)
+            direction = choice(speeds)
             ball_x_speed *= -1
-            ball_y_speed *= -1
+            ball_y_speed *= direction
 
+        # Ball hitting the top and bottom boundaries
         if ball.ycor() > 290:
             ball.sety(290)
             ball_y_speed *= -1
@@ -168,12 +175,14 @@ def startGame():
             ball_y_speed *= -1
         
         ## Physics for the ball hitting the paddles
-            
+
+        # Hitting the left paddle    
         if (ball.xcor() < (paddleLeft.xcor() + 10) and ball.xcor() > (paddleLeft.xcor() - 10)) \
         and (ball.ycor() >= (paddleLeft.ycor() - 60) and ball.ycor() <= (paddleLeft.ycor() + 60)):
             ball_x_speed *= -1
             ball_y_speed *= -1
         
+        # Hitting the right paddle
         if (ball.xcor() > (paddleRight.xcor() - 10) and ball.xcor() < (paddleRight.xcor() + 10)) \
         and (ball.ycor() >= (paddleRight.ycor() - 60) and ball.ycor() \
         <= (paddleRight.ycor() + 60)):
@@ -200,8 +209,9 @@ window.onkeypress(paddleLeftUp, "w")
 window.onkeypress(paddleLeftDown, "s")
 window.listen()
 
+# Exiting the game
+window.exitonclick()
+
 
 
 ### End of program
-
-window.exitonclick()
