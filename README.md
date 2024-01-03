@@ -1,7 +1,7 @@
 # Pong
 
 A simple two player pong game made using Python's Turtle library. 
-The objective is to hit the ball behind your opponent's paddle to score a point. The first person to reach 3 goals will win the match.
+The objective is to hit the ball so that it goes behind your opponent's paddle to score a point. The first person to reach 3 goals will win the match.
 
 
 ## Controls
